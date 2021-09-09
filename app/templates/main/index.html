@@ -1,0 +1,255 @@
+{% extends 'base.html' %} {% from 'bootstrap/form.html' import render_form,
+render_form_row, render_field, render_hidden_errors %} {% block styles %} {{
+super() }}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='main/autocomplete.css') }}"
+/>
+{% endblock styles %} {% block app_content %}
+<div class="container pt-3 pb-4">
+  <div class="search text-center mb-5">
+    <h1
+      class="text-dark h1-responsive text-center col-lg-8 col-md-12 col-sm-12 pb-2 mx-auto"
+    >
+      <strong>Pare de pagar caro em produtos de farmácia</strong>
+    </h1>
+    <h5 id="subtitle" class="text-dark h5-responsive mt-2 mb-5"></h5>
+    <form action="{{ url_for('main.search') }}" autocomplete="off">
+      <div style="margin: auto" class="col-md-10">
+        <div class="input-group input-group-lg">
+          <div id="search-left-icon" class="input-group-prepend">
+            <span span class="input-group-text">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                class="bi bi-search"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                />
+              </svg>
+            </span>
+          </div>
+
+          <input
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            autocorrect="off"
+            placeholder=" medicamentos, cremes, sabonetes, etc..."
+            type="text"
+            class="form-control"
+            name="{{ g.search_form.q.name }}"
+            value="{{ g.search_form.q.data }}"
+            id="search-med"
+            autofocus
+          />
+
+          <div class="input-group-append">
+            <button id="search-button" type="submit" class="btn btn-info">
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  class="bi bi-search"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                  />
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  {% if url_for(request.endpoint) == url_for('main.index') %}
+  <div class="my-5">
+    <h4 class="text-secondary mb-3">Buscado frequentemente:</h4>
+    <ul class="col-md-8 col-sm-12 col-xs-12 list-inline">
+      <a
+        href="{{ url_for('main.search', q='Lipitor') }}"
+        class="frequent-item list-inline-item mb-2 text-white bg-info px-3 py-2"
+        >Lipitor</a
+      >
+      <a
+        href="{{ url_for('main.search', q='Sildenafila') }}"
+        class="frequent-item list-inline-item mb-2 text-white bg-info px-3 py-2"
+        >Sildenafila</a
+      >
+      <a
+        href="{{ url_for('main.search', q='Lexapro') }}"
+        class="frequent-item list-inline-item mb-2 text-white bg-info px-3 py-2"
+        >Lexapro</a
+      >
+      <a
+        href="{{ url_for('main.search', q='Norvasc') }}"
+        class="frequent-item list-inline-item mb-2 text-white bg-info px-3 py-2"
+        >Norvasc</a
+      >
+      <a
+        href="{{ url_for('main.search', q='Zoloft') }}"
+        class="frequent-item list-inline-item mb-2 text-white bg-info px-3 py-2"
+        >Zoloft</a
+      >
+      <a
+        href="{{ url_for('main.search', q='Cozaar') }}"
+        class="frequent-item list-inline-item mb-2 text-white bg-info px-3 py-2"
+        >Cozaar</a
+      >
+      <a
+        href="{{ url_for('main.search', q='Azitromicina') }}"
+        class="frequent-item list-inline-item mb-2 text-white bg-info px-3 py-2"
+        >Azitromicina</a
+      >
+      <a
+        href="{{ url_for('main.search', q='Cymbalta') }}"
+        class="frequent-item list-inline-item mb-2 text-white bg-info px-3 py-2"
+        >Cymbalta</a
+      >
+      <a
+        href="{{ url_for('main.search', q='Pantoprazol') }}"
+        class="frequent-item list-inline-item mb-2 text-white bg-info px-3 py-2"
+        >Pantoprazol</a
+      >
+      <a
+        href="{{ url_for('main.search', q='Omeprazol') }}"
+        class="frequent-item list-inline-item mb-2 text-white bg-info px-3 py-2"
+        >Omeprazol</a
+      >
+      <a
+        href="{{ url_for('main.search', q='Levofloxacino') }}"
+        class="frequent-item list-inline-item mb-2 text-white bg-info px-3 py-2"
+        >Levofloxacino</a
+      >
+      <a
+        href="{{ url_for('main.search', q='Fisiogel') }}"
+        class="frequent-item list-inline-item mb-2 text-white bg-info px-3 py-2"
+        >Fisiogel</a
+      >
+    </ul>
+  </div>
+
+  <div class="text-center">
+    <h5 class="text-secondary mb-3">
+      Buscamos nas maiores farmácias, incluindo
+    </h5>
+    <div class="text-center">
+      <ul class="list-inline">
+        <li class="mx-3 my-2 list-inline-item">
+          <img
+            height="30"
+            src="{{ url_for('static', filename='images/drogasilGray.png') }}"
+            alt=""
+          />
+        </li>
+
+        <li class="mx-3 my-2 list-inline-item">
+          <img
+            height="30"
+            src="{{ url_for('static', filename='images/paguemenosGray.png') }}"
+            alt=""
+          />
+        </li>
+
+        <li class="mx-3 my-2 list-inline-item">
+          <img
+            height="30"
+            src="{{ url_for('static', filename='images/pachecoGray.png') }}"
+            alt=""
+          />
+        </li>
+
+        <li class="mx-3 my-2 list-inline-item">
+          <img
+            height="30"
+            src="{{ url_for('static', filename='images/raiaGray.png') }}"
+            alt=""
+          />
+        </li>
+
+        <li class="mx-3 my-2 list-inline-item">
+          <img
+            height="30"
+            src="{{ url_for('static', filename='images/saopauloGray.png') }}"
+            alt=""
+          />
+        </li>
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+
+  <div>
+    <hr />
+    <div class="text-center">
+      {% if url_for(request.endpoint) == url_for('main.index') %}
+      <h4 class="text-secondary mt-4 mb-4">Produtos populares</h4>
+      {% else %}
+      <h4 class="text-secondary mt-4 mb-4">Resultados da pesquisa</h4>
+      {% endif %}
+    </div>
+    <div class="card-deck">
+      {% if items %} {% for item, best_price in items %} {% include '_item.html'
+      %} {% endfor %} {% else %}
+      <div class="mx-auto text-center">
+        <h3>Nenhum produto encontrado :(</h3>
+        <p>Verifique se digitou o nome do produto corretamente</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if prev_url or next_url %}
+  <nav class="mt-1 mb-5" aria-label="...">
+    <ul class="pagination">
+      <li class="page-item {% if not prev_url %}disabled{% endif %}">
+        <a class="page-link" href="{{ prev_url or '#' }}"
+          ><span aria-hidden="true">&larr;</span>Anterior</a
+        >
+      </li>
+      <li class="page-item {% if not next_url %}disabled{% endif %}">
+        <a class="page-link" href="{{ next_url or '#' }}"
+          >Próximo<span aria-hidden="true">&rarr;</span></a
+        >
+      </li>
+    </ul>
+  </nav>
+  <br />
+  {% endif %}
+</div>
+
+<div>
+  <a
+    style="
+      top: 91%;
+      right: 0.5%;
+      bottom: auto;
+      left: auto;
+      background: transparent
+        url(https://d335luupugsy2.cloudfront.net/cms/files/1446/1588875979/$5u0ndp8vgxo)
+        center center no-repeat;
+      width: 60px;
+      height: 61px;
+      background-size: 60px 60px;
+      cursor: pointer;
+      border: 0;
+      z-index: 900;
+      box-shadow: none;
+      position: fixed;
+      display: block;
+    "
+    aria-label="Abrir WhatsApp"
+    target="_blank"
+    href="https://api.whatsapp.com/send?phone=5519982652693&text=Olá,%20gostaria%20de%20tirar%20uma%20dúvida"
+  ></a>
+</div>
+{% endblock app_content %}

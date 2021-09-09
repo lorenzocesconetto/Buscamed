@@ -1,0 +1,132 @@
+{% extends 'base.html' %} {% block styles %} {{ super() }}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='main/product-table.css') }}"
+/>
+<script>
+  function saveState(state) {
+    try {
+      const serializedState = JSON.stringify(state);
+      localStorage.setItem("@cart", serializedState);
+    } catch {
+      // ignore write errors
+    }
+  }
+
+  function loadState() {
+    try {
+      const serializedState = localStorage.getItem("@cart");
+
+      if (serializedState === "null" || serializedState === null) {
+        localStorage.setItem("@cart", JSON.stringify({}));
+        return {};
+      }
+      return JSON.parse(serializedState);
+    } catch (err) {
+      return undefined;
+    }
+  }
+
+  function addToCart(_this, item) {
+    _this.innerHTML = "Adicionado!";
+    _this.className = "btn btn-outline-success";
+    const cart = loadState();
+    if (item.id in cart) {
+      cart[item.id].quantity += 1;
+    } else {
+      cart[item.id] = { id: item.id, quantity: 1 };
+    }
+    cart[item.id].price = item.price;
+    cart[item.id].name = item.name;
+    cart[item.id].img_small = item.img_small;
+    cart[item.id].promotion_price = item.promotion_price;
+    cart[item.id].promotion_qty = item.promotion_qty;
+
+    saveState(cart);
+  }
+</script>
+{% endblock styles %} {% block app_content %}
+<div style="min-height: 80vh" class="bg-light">
+  <div class="container pt-5">
+    <div class="row">
+      <div class="col-3 my-auto">
+        <img class="img-fluid img" src="{{ item[0].img_small }}" />
+      </div>
+      <div class="col-9">
+        <h3>{{ item[0].name }}</h3>
+        <p>{{ item[0].producer }}</p>
+        {% for i in item %} {% if i.bula %}
+        <a
+          href="{% if i.bula[0] == '/' %} https://drogasil.com.br{{ i.bula }} {% else %} {{ i.bula }} {% endif %}"
+          target="_blank"
+          role="button"
+          class="btn btn-light"
+          >Ver bula</a
+        >
+        {% break %} {% endif %} {% endfor %} {% if can_edit %}
+        <a
+          class="btn btn-warning"
+          href="{{ url_for('main.product_edit', store_id=current_user.store_id, ean=item[0].ean) }}"
+          role="button"
+          >Editar</a
+        >
+        {% endif %}
+      </div>
+      <table class="table table-hover mt-4">
+        <thead>
+          <tr>
+            <th scope="col">Loja</th>
+            <th scope="col">Preço</th>
+            <th scope="col">Promoção</th>
+            <th scope="col">Carrinho</th>
+            {% if current_user.is_admin %}
+            <th scope="col">Ver no site</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in item %}
+          <tr>
+            <td>{{ i.store.name }}</td>
+            <td>{{ i.buscamed_formatted_price }}</td>
+
+            {% if i.promotion_qty and i.promotion_price %}
+            <td>
+              {{ i.promotion_qty }} Un. {{ i.buscamed_formatted_promotion_price
+              }} cada
+            </td>
+            {% else %}
+            <td>-</td>
+            {% endif %} {% if i.store.buscamed_delivery and not
+            i.requires_prescription %}
+            <script>
+              let item_{{i.id}} = {{ i.to_json()|tojson|safe }};
+            </script>
+            <td>
+              <button
+                onclick="addToCart(this, item_{{i.id}});"
+                type="button"
+                class="btn btn-info"
+              >
+                Adicionar ao carrinho
+              </button>
+            </td>
+            {% else %}
+            <td>-</td>
+            {% endif %} {% if current_user.is_admin %}
+            <td><a href="{{ i.url }}">Ver no site</a></td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% for i in item %} {% if i.description %}
+      <article>
+        <h3 class="mb-4 text-dark">Descrição</h3>
+        {{ i.description|safe }}
+      </article>
+      {% break %} {% endif %} {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock app_content %}

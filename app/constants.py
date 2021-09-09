@@ -1,0 +1,2 @@
+
+DELIVERY_FEE = 3.90

@@ -1,0 +1,60 @@
+{% extends 'base.html' %} {% block app_content %}
+<div class="col-10 mx-auto">
+  {% if orders %}
+  <div class="table-responsive mb-4">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Pedido</th>
+          <th scope="col">Data</th>
+          <th scope="col">Pagamento</th>
+          <th scope="col">Endereço</th>
+          <th scope="col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td>
+            <a
+              target="_blank"
+              class="btn btn-warning"
+              href="{{ url_for('main.pedido', order_id=order.id) }}"
+            >
+              {{ order.id }}
+            </a>
+          </td>
+          <td>{{ order.placed_timestamp.strftime('%d/%m/%Y') }}</td>
+          <td>{{ order.payment_method.name }}</td>
+          <td>{{ order.user.logradouro }}, {{ order.user.complemento }}</td>
+          <td>R$ {{ order.total }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if prev_url or next_url %}
+  <nav class="mt-1 mb-5" aria-label="...">
+    <ul class="pagination">
+      <li class="page-item {% if not prev_url %}disabled{% endif %}">
+        <a class="page-link" href="{{ prev_url or '#' }}"
+          ><span aria-hidden="true">&larr;</span>Anterior</a
+        >
+      </li>
+      <li class="page-item {% if not next_url %}disabled{% endif %}">
+        <a class="page-link" href="{{ next_url or '#' }}"
+          >Próximo<span aria-hidden="true">&rarr;</span></a
+        >
+      </li>
+    </ul>
+  </nav>
+  <br />
+  {% endif %} {% else %}
+  <h2 class="text-center mb-5">Você ainda não tem pedidos</h2>
+  <p class="text-center mb-5">
+    Adicione produtos ao seu carrinho e faça seu primeiro pedido :)
+  </p>
+  {% endif %}
+</div>
+{% endblock app_content %}

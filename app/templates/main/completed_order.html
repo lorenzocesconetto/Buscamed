@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block app_content %}
+
+<div class="pb-5 mb-5 container">
+  <div class="text-center">
+    <p>
+      <i style="font-size: 15rem" class="text-success far fa-check-circle"></i>
+    </p>
+    <h2 class="mb-4 text-secondary">Compra realizada com sucesso! :)</h2>
+    <p>Em breve entregaremos seu pedido no endereço informado</p>
+    <p class="text-secondary">
+      Qualquer dúvida entre em contato pelo WhatsApp:
+      <a
+        target="_blank"
+        class="ml-4 btn btn-success text-center align-middle"
+        href="http://api.whatsapp.com/send?phone=5519982652693"
+        ><i
+          style="font-size: 1.6em"
+          class="text-center align-middle fab fa-whatsapp"
+        ></i
+        >&nbsp;&nbsp;(19) 98265-2693</a
+      >
+    </p>
+    <a class="mt-4 btn btn-info" href="{{ url_for('main.index') }}"
+      >Voltar a página principal</a
+    >
+  </div>
+</div>
+
+{% endblock app_content %}

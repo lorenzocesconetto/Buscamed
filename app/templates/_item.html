@@ -1,0 +1,36 @@
+{% if item %}
+<a href="{{ url_for('main.detail', id=item.id) }}" target="_blank">
+  <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+    <div class="card mb-4 shadow-sm bg-light">
+      <div class="bg-white img-wrapper">    
+        <img class="img-fluid img" src="{{ item.img_small }}" alt="">
+      </div>
+      <div class="card-body">
+        
+        <p class="card-text text-center">
+          {{ item.name }}
+          <hr>
+          {% if item.producer %}
+            <p class="text-center" style="color: #555;">{{ item.producer }}</p>
+          {% endif %}
+        </p>
+        
+        <hr>
+          <p class="text-secondary mb-0">A partir de</p>
+            {# <h2 style="font-family: 'Source Sans Pro', sans-serif;" class="mt-0 text-info">R$ {{ "{:.2f}".format(best_price).replace('.', ',') }}</h2> #}
+              <h1 style="font-family: 'Source Sans Pro', sans-serif;" class="mt-0 text-info">R$ {{ best_price|int }}<small style="font-size: 1rem;">,{{ "{:.2f}".format(best_price)[-2:] }}</small></h1>
+
+          <div class="col text-center">
+            <a style="width: 100%;" class="btn btn-info mb-1" href="{{ url_for('main.detail', id=item.id) }}" target="_blank" role="button">
+              Ver preços
+            </a>
+            {% if current_user.is_admin %}
+              <small>{{item.ean}}</small>
+            {% endif %}
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+</a>
+{% endif %}

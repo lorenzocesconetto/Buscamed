@@ -1,0 +1,5 @@
+-r common.txt
+aniso8601==8.1.0
+autopep8==1.5.4
+pycodestyle==2.6.0
+toml==0.10.2

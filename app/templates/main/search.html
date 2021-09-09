@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Resultados da Pesquisa</h1>
+    <div class="row">
+      {% for key, item in items.items() %}
+          {% include '_item.html' %}
+      {% endfor %}
+    </div>
+    <nav aria-label="...">
+        <ul class="pager">
+            <li class="previous{% if not prev_url %}disabled{% endif %}">
+                <a href="{{ prev_url or '#' }}">
+                    <span aria-hidden="true">&larr;</span>Anterior</a>
+            </li>
+            <li class="next{% if not next_url %}disabled{% endif %}">
+                <a href="{{ next_url or '#' }}">Próximo<span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock content %}
